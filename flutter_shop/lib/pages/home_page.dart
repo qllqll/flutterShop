@@ -96,8 +96,7 @@ class _HomePageState extends State<HomePage>
                       showInfo: true,
                       noMoreText: '已经到底了',
                       loadReadyText: '开始加载...',
-                      loadingText: '加载中...'
-                  ),
+                      loadingText: '加载中...'),
                 );
               } else {
                 return Center(
@@ -317,7 +316,7 @@ class Recommend extends StatelessWidget {
         height: ScreenUtil().setHeight(330),
         width: ScreenUtil().setWidth(250),
         padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(6.0), 0, ScreenUtil().setWidth(6.0), 0),
+            0, ScreenUtil().setHeight(6.0), ScreenUtil().setHeight(6.0), 0),
         decoration: BoxDecoration(
             color: Colors.white,
             border:
@@ -325,11 +324,14 @@ class Recommend extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.network(recommendList[index]['image']),
-            Text('￥${recommendList[index]['mallPrice']}'),
-            Text(
-              '￥${recommendList[index]['price']}',
-              style: TextStyle(
-                  decoration: TextDecoration.lineThrough, color: Colors.grey),
+            Expanded(
+              child: Text('￥${recommendList[index]['mallPrice']}'),
+            ),
+            Expanded(
+              child: Text('￥${recommendList[index]['price']}',
+                  style: TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey)),
             )
           ],
         ),
@@ -340,8 +342,8 @@ class Recommend extends StatelessWidget {
 //  横向列表方法
   Widget _recommendList() {
     return Container(
-        height: ScreenUtil().setHeight(330),
-        padding: EdgeInsets.only(top: ScreenUtil().setHeight(10.0)),
+        height: ScreenUtil().setHeight(340),
+        padding: EdgeInsets.only(top: ScreenUtil().setHeight(5.0)),
         color: Colors.white,
         child: ListView.builder(
           itemBuilder: (context, index) {
@@ -355,7 +357,7 @@ class Recommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(380),
+      height: ScreenUtil().setHeight(390),
       margin: EdgeInsets.only(top: ScreenUtil().setHeight(10.0)),
       child: Column(
         children: <Widget>[_titleWidget(), _recommendList()],
