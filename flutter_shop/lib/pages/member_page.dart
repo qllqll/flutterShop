@@ -5,12 +5,7 @@ class MemberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: Center(
-          child: Text('会员中心'),
-        ),
-      ),
-    );
+    print('third page rebuild');
+    return Container(child: Scaffold(body: Center(child: Text('购物车'))));
   }
 }
