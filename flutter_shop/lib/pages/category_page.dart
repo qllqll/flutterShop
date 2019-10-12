@@ -237,7 +237,25 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
                 itemCount: childGoodList.goodList.length,
               ),
               onLoad: () async {
-                _getMoreList();
+                Provider.of<ChildCategoryNotifier>(context, listen: false).increasePage();
+
+                var formData = {
+                  'categoryId': Provider.of<ChildCategoryNotifier>(context).categoryId,
+                  'categorySubId': Provider.of<ChildCategoryNotifier>(context).subId,
+                  'page': Provider.of<ChildCategoryNotifier>(context).page,
+                };
+                await request('getMallGoods', formData: formData).then((val) {
+                  var data = json.decode(val.toString());
+                  CategoryGoodListModel goodsList = CategoryGoodListModel.fromJson(data);
+
+                  if (goodsList.data == null) {
+                    Provider.of<ChildCategoryNotifier>(context, listen: false)
+                        .changeNoMoreText('没有更多数据...');
+                  } else {
+                    Provider.of<CategoryGoodsListNotifier>(context, listen: false)
+                        .getMoredsList(goodsList.data);
+                  }
+                });
               },
               footer: ClassicalFooter(
                   bgColor: Colors.white,
@@ -324,27 +342,5 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
         ),
       ),
     );
-  }
-
-  void _getMoreList() async {
-    Provider.of<ChildCategoryNotifier>(context, listen: false).increasePage();
-
-    var formData = {
-      'categoryId': Provider.of<ChildCategoryNotifier>(context).categoryId,
-      'categorySubId': Provider.of<ChildCategoryNotifier>(context).subId,
-      'page': Provider.of<ChildCategoryNotifier>(context).page,
-    };
-    await request('getMallGoods', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-      CategoryGoodListModel goodsList = CategoryGoodListModel.fromJson(data);
-
-      if (goodsList.data == null) {
-        Provider.of<ChildCategoryNotifier>(context, listen: false)
-            .changeNoMoreText('没有更多数据...');
-      } else {
-        Provider.of<CategoryGoodsListNotifier>(context, listen: false)
-            .getMoredsList(goodsList.data);
-      }
-    });
   }
 }
