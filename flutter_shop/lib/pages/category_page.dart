@@ -246,6 +246,7 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
                   showInfo: true,
                   noMoreText:
                       Provider.of<ChildCategoryNotifier>(context).noMoreText,
+                  loadedText: '已经到底了',
                   loadReadyText: '开始加载...',
                   loadingText: '加载中...'),
             );
