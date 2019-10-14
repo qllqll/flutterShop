@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../model/category_good_list.dart';
 import '../provider/category_goods_list.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -249,6 +250,13 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
                   CategoryGoodListModel goodsList = CategoryGoodListModel.fromJson(data);
 
                   if (goodsList.data == null) {
+                    Fluttertoast.showToast(msg: '已经到底了...',
+                    toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.pink,
+                      textColor: Colors.white,
+                      fontSize: ScreenUtil().setSp(32)
+                    );
                     Provider.of<ChildCategoryNotifier>(context, listen: false)
                         .changeNoMoreText('没有更多数据...');
                   } else {

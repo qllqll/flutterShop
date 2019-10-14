@@ -1,6 +1,4 @@
-import 'dart:io';
-import 'dart:ui' as prefix0;
-
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../service/service_method.dart';
@@ -9,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import '../routers/application.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -120,7 +119,10 @@ class _HomePageState extends State<HomePage>
     if (hotGoodsList.length != 0) {
       List<Widget> listWidget = hotGoodsList.map((val) {
         return InkWell(
-            onTap: () {},
+            onTap: () {
+              print('---');
+              Application.router.navigateTo(context, "/detail?id=${val['goodsId']}",transition: TransitionType.fadeIn);
+            },
             child: Container(
               width: ScreenUtil().setWidth(372),
               color: Colors.white,
