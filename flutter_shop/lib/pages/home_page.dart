@@ -120,8 +120,9 @@ class _HomePageState extends State<HomePage>
       List<Widget> listWidget = hotGoodsList.map((val) {
         return InkWell(
             onTap: () {
-              print('---');
-              Application.router.navigateTo(context, "/detail?id=${val['goodsId']}",transition: TransitionType.fadeIn);
+              Application.router.navigateTo(
+                  context, "/detail?id=${val['goodsId']}",
+                  transition: TransitionType.fadeIn);
             },
             child: Container(
               width: ScreenUtil().setWidth(372),
@@ -192,10 +193,14 @@ class SwiperDiy extends StatelessWidget {
         width: ScreenUtil().setWidth(750),
         child: Swiper(
           itemBuilder: (BuildContext context, int index) {
-            return Image.network(
+            return InkWell(
+              onTap: (){
+                Application.router.navigateTo(context, "/detail?id=${swiperDateList[index]['goodsId']}");
+              },
+                child: Image.network(
               swiperDateList[index]['image'],
               fit: BoxFit.fill,
-            );
+            ));
           },
           itemCount: swiperDateList.length,
           pagination: SwiperPagination(),
@@ -311,9 +316,12 @@ class Recommend extends StatelessWidget {
   }
 
 //  商品的每一项
-  Widget _goodItem(index) {
+  Widget _goodItem(context,index) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(context, "/detail?id=${recommendList[index]['goodsId']}");
+
+      },
       child: Container(
         height: ScreenUtil().setHeight(330),
         width: ScreenUtil().setWidth(250),
@@ -349,7 +357,7 @@ class Recommend extends StatelessWidget {
         color: Colors.white,
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return _goodItem(index);
+            return _goodItem(context,index);
           },
           scrollDirection: Axis.horizontal,
           itemCount: recommendList.length,
@@ -388,9 +396,10 @@ class FloorContent extends StatelessWidget {
   final List floorGoodList;
 
   FloorContent({this.floorGoodList});
-
+  BuildContext _context;
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return Container(
       child: Column(
         children: <Widget>[_firstRow(), _otherGoods()],
@@ -423,7 +432,10 @@ class FloorContent extends StatelessWidget {
     return Container(
       width: ScreenUtil().setWidth(375),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Application.router.navigateTo(_context, "/detail?id=${goods['goodsId']}");
+
+        },
         child: Image.network(goods['image']),
       ),
     );

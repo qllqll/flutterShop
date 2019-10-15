@@ -8,6 +8,7 @@ import './provider/category_goods_list.dart';
 import 'package:fluro/fluro.dart';
 import './routers/routers.dart';
 import './routers/application.dart';
+import 'provider/details_info.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: ChildCategoryNotifier()),
         ChangeNotifierProvider.value(value: CategoryGoodsListNotifier()),
+        ChangeNotifierProvider.value(value: DetailInfoProvider()),
       ],
       child: Container(
         child: MaterialApp(
