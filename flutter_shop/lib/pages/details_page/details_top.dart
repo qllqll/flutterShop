@@ -7,7 +7,7 @@ class DetailsTopArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DetailInfoProvider>(builder: (context, detailInfo, child) {
-      if (detailInfo.goodsInfo.data != null) {
+      if (detailInfo.goodsInfo != null) {
         var goodsInfo = detailInfo.goodsInfo.data.goodInfo;
         print(goodsInfo);
         return Container(

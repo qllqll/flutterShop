@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/pages/details_page/details_explain.dart';
 import 'package:provider/provider.dart';
 import '../provider/details_info.dart';
 import 'details_page/details_top.dart';
-
+import 'details_page/details_tabbar.dart';
+import 'details_page/details_web.dart';
+import 'details_page/details_bottom.dart';
 class DetailsPage extends StatelessWidget {
   final String goodsId;
 
@@ -22,17 +26,29 @@ class DetailsPage extends StatelessWidget {
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Container(
-
-              child: SingleChildScrollView(
-                child:Column(
-                children: <Widget>[
-                  DetailsTopArea()
-                ],
-              )),
+            return Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(80)),
+                  child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          DetailsTopArea(),
+                          DetailsExplain(),
+                          DetailsTabBar(),
+                          DetailsWeb()
+                        ],
+                      )),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child:DetailsBottom(),
+                 )
+              ],
             );
           } else {
-            return Text('加载中...');
+            return Center(child: Text('加载中...'));
           }
         },
         future: _getBackInfo(context),
@@ -42,7 +58,8 @@ class DetailsPage extends StatelessWidget {
 
   Future _getBackInfo(BuildContext context) async {
     print('---');
-    await Provider.of<DetailInfoProvider>(context,listen: false).getGoodsInfo(goodsId);
+    await Provider.of<DetailInfoProvider>(context, listen: false)
+        .getGoodsInfo(goodsId);
     return '';
   }
 }

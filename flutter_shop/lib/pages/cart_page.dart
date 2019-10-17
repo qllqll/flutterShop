@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class CartPage extends StatelessWidget {
   const CartPage({Key key}) : super(key: key);
@@ -37,4 +39,9 @@ class MyButton extends StatelessWidget {
       ),
     );
   }
+
+//  增加方法
+ void _add() async {
+
+ }
 }
