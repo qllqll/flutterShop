@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_shop/model/cart_info.dart';
+import 'package:provider/provider.dart';
+import '../provider/cart.dart';
+import 'cart_page/cart_item.dart';
+import 'cart_page/cart_bottom.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key key}) : super(key: key);
@@ -10,38 +13,42 @@ class CartPage extends StatelessWidget {
     print('刷新界面');
     return Container(
       child: Scaffold(
-        body: Center(
-            child: Column(
-          children: <Widget>[Number(), MyButton()],
-        )),
-      ),
+          appBar: AppBar(
+            title: Text('购物车'),
+          ),
+          body: FutureBuilder(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Consumer<CartNotifier>(
+                      builder: (context, cartNotifier, child) {
+                    List<CartInfoModel> cartList = cartNotifier.cartList;
+                    return Stack(
+                      children: <Widget>[
+                        ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CartItem(cartList[index]);
+                            },
+                            itemCount: cartList.length),
+                        Positioned(
+                          child: CartBottom(),
+                          bottom: 0,
+                          left: 0,
+                        )
+                      ],
+                    );
+                  });
+                } else {
+                  return Center(
+                    child: Text('正在加载'),
+                  );
+                }
+              },
+              future: _getCartInfo(context))),
     );
   }
-}
 
-class Number extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    print('first page rebuild');
-    return Container(margin: EdgeInsets.only(top: 30), child: Text('购物车'));
+  Future<String> _getCartInfo(BuildContext context) async {
+    await Provider.of<CartNotifier>(context, listen: false).getCartInfo();
+    return '';
   }
-}
-
-class MyButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    print('second screen rebuild');
-    return Container(
-      child: RaisedButton(
-        onPressed: () {
-        },
-        child: Text('递增'),
-      ),
-    );
-  }
-
-//  增加方法
- void _add() async {
-
- }
 }

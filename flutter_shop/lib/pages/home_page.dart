@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage>
             onTap: () {
               Application.router.navigateTo(
                   context, "/detail?id=${val['goodsId']}",
-                  transition: TransitionType.fadeIn);
+                  transition: TransitionType.cupertino);
             },
             child: Container(
               width: ScreenUtil().setWidth(372),
@@ -195,7 +195,7 @@ class SwiperDiy extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: (){
-                Application.router.navigateTo(context, "/detail?id=${swiperDateList[index]['goodsId']}");
+//                Application.router.navigateTo(context, "/detail?id=${swiperDateList[index]['goodsId']}",transition: TransitionType.cupertino);
               },
                 child: Image.network(
               swiperDateList[index]['image'],
@@ -319,7 +319,7 @@ class Recommend extends StatelessWidget {
   Widget _goodItem(context,index) {
     return InkWell(
       onTap: () {
-        Application.router.navigateTo(context, "/detail?id=${recommendList[index]['goodsId']}");
+        Application.router.navigateTo(context, "/detail?id=${recommendList[index]['goodsId']}",transition: TransitionType.cupertino);
 
       },
       child: Container(
@@ -433,7 +433,7 @@ class FloorContent extends StatelessWidget {
       width: ScreenUtil().setWidth(375),
       child: InkWell(
         onTap: () {
-          Application.router.navigateTo(_context, "/detail?id=${goods['goodsId']}");
+          Application.router.navigateTo(_context, "/detail?id=${goods['goodsId']}",transition: TransitionType.cupertino);
 
         },
         child: Image.network(goods['image']),

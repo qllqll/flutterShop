@@ -40,9 +40,8 @@ class DetailsPage extends StatelessWidget {
                         ],
                       )),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
+                Align(
+                  alignment: Alignment(-1,1),
                   child:DetailsBottom(),
                  )
               ],

@@ -9,7 +9,7 @@ class DetailsWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DetailInfoProvider>(builder: (context, val, child) {
-      if (val.goodsInfo.data != null) {
+      if (val.goodsInfo != null) {
         String goodsDetails = val.goodsInfo.data.goodInfo.goodsDetail;
         List comments = val.goodsInfo.data.goodComments;
 //        print('-----------${comments[0].userName}');
