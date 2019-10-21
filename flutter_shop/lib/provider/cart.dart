@@ -5,9 +5,9 @@ import '../model/cart_info.dart';
 
 class CartNotifier with ChangeNotifier {
   String cartString = '[]';
-
   List<CartInfoModel> cartList = [];
-
+  double allPrice = 0; //总价格
+  int allGoodsCount = 0; //总数量
 
   save(goodId, goodsName, count, price, images) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,7 +31,8 @@ class CartNotifier with ChangeNotifier {
         'goodsName': goodsName,
         'count': count,
         'price': price,
-        'images': images
+        'images': images,
+        'isCheck': true
       };
       tempList.add(newGoods);
       cartList.add(CartInfoModel.fromJson(newGoods));
@@ -51,16 +52,43 @@ class CartNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  getCartInfo() async{
+  getCartInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cartString = prefs.getString('CART_INFO');
     cartList = [];
-    if(cartString != null) {
+    if (cartString != null) {
       List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
-      tempList.forEach((item){
+      allPrice = 0;
+      allGoodsCount =0;
+      tempList.forEach((item) {
+        if(item['isCheck']){
+          allPrice += (item['count'] * item['price']);
+          allGoodsCount += item['count'];
+        }
+        print('----$allPrice-----$allGoodsCount');
         cartList.add(CartInfoModel.fromJson(item));
       });
     }
     notifyListeners();
+  }
+
+//  删除单个购物车商品
+  deleteOneGoods(String goodsId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('CART_INFO');
+    List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    int tempIndex = 0;
+    int delIndex = 0;
+    tempList.forEach((item){
+
+      if(item['goodsId'] == goodsId){
+        delIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+    tempList.removeAt(delIndex);
+    cartString = json.encode(tempList).toString();
+    prefs.setString('CART_INFO', cartString);
+    await getCartInfo();
   }
 }

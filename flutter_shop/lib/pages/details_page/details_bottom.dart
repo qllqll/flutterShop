@@ -37,7 +37,7 @@ class DetailsBottom extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  await Provider.of<CartNotifier>(context)
+                  await Provider.of<CartNotifier>(context,listen: false)
                       .save(goodsId, goodsName, count, price, images);
                 },
                 child: Container(

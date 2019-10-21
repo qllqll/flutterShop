@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/pages/cart_page/cart_count.dart';
 import '../../model/cart_info.dart';
+import 'package:provider/provider.dart';
+import '../../provider/cart.dart';
 
 class CartItem extends StatelessWidget {
   final CartInfoModel item;
+
   CartItem(this.item);
 
   @override
@@ -18,20 +22,20 @@ class CartItem extends StatelessWidget {
           color: Colors.white),
       child: Row(
         children: <Widget>[
-          _cartCheckBtn(),
+          _cartCheckBtn(context,item),
           _cartImage(),
           _cartGoodsName(),
-          _cartPrice()
+          _cartPrice(context)
         ],
       ),
     );
   }
 
 //  多选按钮
-  Widget _cartCheckBtn() {
+  Widget _cartCheckBtn(context, item) {
     return Container(
       child: Checkbox(
-          value: true, activeColor: Colors.pink, onChanged: (bool val) {}),
+          value: item.isCheck, activeColor: Colors.pink, onChanged: (bool val) {}),
     );
   }
 
@@ -52,17 +56,23 @@ class CartItem extends StatelessWidget {
     return Container(
       width: ScreenUtil().setWidth(300),
       padding: EdgeInsets.all(10),
-      alignment: Alignment.topLeft,
+      alignment: Alignment.center,
       child: Column(
         children: <Widget>[
-          Text(item.goodsName)
+          Container(
+            width: ScreenUtil().setWidth(300),
+              child: Text(item.goodsName,
+              textAlign: TextAlign.left)
+          ),
+
+          CartCount()
         ],
       ),
     );
   }
 
 //  商品价格
-Widget _cartPrice(){
+  Widget _cartPrice(context) {
     return Container(
       width: ScreenUtil().setWidth(150),
       alignment: Alignment.centerRight,
@@ -71,8 +81,8 @@ Widget _cartPrice(){
           Text('￥${item.price}'),
           Container(
             child: InkWell(
-              onTap: (){
-
+              onTap: () {
+                Provider.of<CartNotifier>(context,listen: false).deleteOneGoods(item.goodsId);
               },
               child: Icon(
                 Icons.delete_forever,
@@ -84,5 +94,5 @@ Widget _cartPrice(){
         ],
       ),
     );
-}
+  }
 }

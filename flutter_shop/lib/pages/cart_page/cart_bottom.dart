@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import '../../provider/cart.dart';
 
 class CartBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5.0),
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-             _selectAllBtn(),
-          _allProceArea(),
-          _goButtom(),
-        ],
-      ),
-    );
+    return Consumer<CartNotifier>(builder: (context,cartNotifier,child){
+
+      return Container(
+        padding: EdgeInsets.all(5.0),
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            _selectAllBtn(),
+            _allProceArea(cartNotifier.allPrice),
+            _goButtom(cartNotifier.allGoodsCount),
+          ],
+        ),
+      );
+    });
+
   }
 
   Widget _selectAllBtn() {
     return Container(
-      width: ScreenUtil().setWidth(150),
+      width: ScreenUtil().setWidth(200),
       child: Row(
         children: <Widget>[
           Checkbox(
@@ -30,7 +36,7 @@ class CartBottom extends StatelessWidget {
     );
   }
 
-  Widget _allProceArea() {
+  Widget _allProceArea(price) {
     return Container(
       width: ScreenUtil().setWidth(350),
       child: Column(
@@ -49,7 +55,7 @@ class CartBottom extends StatelessWidget {
                   child: Container(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '￥0.00',
+                  '￥$price',
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(32), color: Colors.red),
                 ),
@@ -68,19 +74,23 @@ class CartBottom extends StatelessWidget {
     );
   }
 
-  Widget _goButtom() {
+  Widget _goButtom(count) {
     return Container(
       alignment: Alignment.center,
-      width: ScreenUtil().setWidth(250),
+      width: ScreenUtil().setWidth(200),
 //      margin: EdgeInsets.only(right: 10),
-      padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40), ScreenUtil().setWidth(10), ScreenUtil().setWidth(40), ScreenUtil().setWidth(10)),
+      padding: EdgeInsets.fromLTRB(
+          ScreenUtil().setWidth(20),
+          ScreenUtil().setWidth(10),
+          ScreenUtil().setWidth(20),
+          ScreenUtil().setWidth(10)),
       child: InkWell(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(5),
           alignment: Alignment.center,
           child: Text(
-            '结算(99+)',
+            '结算（$count）',
             style: TextStyle(color: Colors.white),
           ),
           decoration: BoxDecoration(

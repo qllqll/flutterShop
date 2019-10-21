@@ -7,6 +7,69 @@ class CartCount extends StatelessWidget {
     return Container(
       width: ScreenUtil().setWidth(165),
       margin: EdgeInsets.only(top: 5),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.black12)
+      ),
+      child: Row(
+        children: <Widget>[
+          _reduceBtn(),
+          _countArea(),
+          _addBtn()
+        ],
+      ),
     );
   }
+
+//  减少
+  Widget _reduceBtn() {
+    return InkWell(
+        onTap: () {},
+        child: Container(
+            width: ScreenUtil().setWidth(45),
+            height: ScreenUtil().setHeight(45),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+            color:Colors.white,
+            border: Border(
+            right: BorderSide(
+            color: Colors.black12,
+            width: 1
+        )
+    )),
+    child: Text('-'),
+    )
+    );
+  }
+
+  //  增加
+  Widget _addBtn() {
+    return InkWell(
+        onTap: () {},
+        child: Container(
+            width: ScreenUtil().setWidth(45),
+            height: ScreenUtil().setHeight(45),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+            color:Colors.white,
+            border: Border(
+            left: BorderSide(
+            color: Colors.black12,
+            width: 1
+        )
+    )),
+    child: Text('+'),
+    )
+    );
+  }
+
+//  中间数量区域
+Widget _countArea(){
+    return Container(
+      width: ScreenUtil().setWidth(70),
+      height: ScreenUtil().setHeight(45),
+      alignment: Alignment.center,
+      color: Colors.white,
+      child: Text('99'),
+    );
+}
 }
