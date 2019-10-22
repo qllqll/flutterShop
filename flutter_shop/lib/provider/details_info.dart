@@ -29,7 +29,6 @@ class DetailInfoProvider with ChangeNotifier {
     await request('getGoodDetailById',formData:formData).then((val){
       var responseData = json.decode(val.toString());
       _goodsInfo = DetailsModel.fromJson(responseData);
-      print(_goodsInfo);
       notifyListeners();
     });
   }

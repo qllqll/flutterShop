@@ -9,13 +9,14 @@ class CartBottom extends StatelessWidget {
     return Consumer<CartNotifier>(builder: (context,cartNotifier,child){
 
       return Container(
+        height: ScreenUtil().setHeight(110),
         padding: EdgeInsets.all(5.0),
         color: Colors.white,
         child: Row(
           children: <Widget>[
-            _selectAllBtn(),
+            _selectAllBtn(context,cartNotifier.isAllCheck),
             _allProceArea(cartNotifier.allPrice),
-            _goButtom(cartNotifier.allGoodsCount),
+            _goButton(cartNotifier.allGoodsCount),
           ],
         ),
       );
@@ -23,13 +24,17 @@ class CartBottom extends StatelessWidget {
 
   }
 
-  Widget _selectAllBtn() {
+  Widget _selectAllBtn(context,isAllcheck) {
     return Container(
       width: ScreenUtil().setWidth(200),
       child: Row(
         children: <Widget>[
           Checkbox(
-              value: true, activeColor: Colors.pink, onChanged: (bool val) {}),
+              value: isAllcheck,
+              activeColor: Colors.pink,
+              onChanged: (bool val) {
+                Provider.of<CartNotifier>(context,listen: false).changeAllCheckBtnState(val);
+              }),
           Text('全选')
         ],
       ),
@@ -55,7 +60,7 @@ class CartBottom extends StatelessWidget {
                   child: Container(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '￥$price',
+                  '￥${price.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(32), color: Colors.red),
                 ),
@@ -74,7 +79,7 @@ class CartBottom extends StatelessWidget {
     );
   }
 
-  Widget _goButtom(count) {
+  Widget _goButton(count) {
     return Container(
       alignment: Alignment.center,
       width: ScreenUtil().setWidth(200),

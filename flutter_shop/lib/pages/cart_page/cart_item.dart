@@ -22,7 +22,7 @@ class CartItem extends StatelessWidget {
           color: Colors.white),
       child: Row(
         children: <Widget>[
-          _cartCheckBtn(context,item),
+          _cartCheckBtn(context, item),
           _cartImage(),
           _cartGoodsName(),
           _cartPrice(context)
@@ -35,7 +35,13 @@ class CartItem extends StatelessWidget {
   Widget _cartCheckBtn(context, item) {
     return Container(
       child: Checkbox(
-          value: item.isCheck, activeColor: Colors.pink, onChanged: (bool val) {}),
+          value: item.isCheck,
+          activeColor: Colors.pink,
+          onChanged: (bool val) {
+            item.isCheck = val;
+            Provider.of<CartNotifier>(context, listen: false)
+                .changeCheckState(item);
+          }),
     );
   }
 
@@ -44,9 +50,8 @@ class CartItem extends StatelessWidget {
     return Container(
       width: ScreenUtil().setHeight(150),
       padding: EdgeInsets.all(3),
-      decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black12)
-      ),
+      decoration:
+          BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
       child: Image.network(item.images),
     );
   }
@@ -60,12 +65,9 @@ class CartItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(300),
-              child: Text(item.goodsName,
-              textAlign: TextAlign.left)
-          ),
-
-          CartCount()
+              width: ScreenUtil().setWidth(300),
+              child: Text(item.goodsName, textAlign: TextAlign.left)),
+          CartCount(this.item)
         ],
       ),
     );
@@ -78,11 +80,12 @@ class CartItem extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Column(
         children: <Widget>[
-          Text('￥${item.price}'),
+          Text('￥${item.price.toStringAsFixed(2)}'),
           Container(
             child: InkWell(
               onTap: () {
-                Provider.of<CartNotifier>(context,listen: false).deleteOneGoods(item.goodsId);
+                Provider.of<CartNotifier>(context, listen: false)
+                    .deleteOneGoods(item.goodsId);
               },
               child: Icon(
                 Icons.delete_forever,

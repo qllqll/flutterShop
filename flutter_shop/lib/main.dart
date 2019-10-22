@@ -10,6 +10,7 @@ import './routers/routers.dart';
 import './routers/application.dart';
 import 'provider/details_info.dart';
 import 'provider/cart.dart';
+import 'provider/currentIndex.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: CategoryGoodsListNotifier()),
         ChangeNotifierProvider.value(value: DetailInfoProvider()),
         ChangeNotifierProvider.value(value: CartNotifier()),
-
+        ChangeNotifierProvider.value(value: CurrentIndexNotifier())
       ],
       child: Container(
         child: MaterialApp(

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart.dart';
 import '../../provider/details_info.dart';
+import '../../provider/currentIndex.dart';
 
 class DetailsBottom extends StatelessWidget {
   @override
@@ -24,21 +25,53 @@ class DetailsBottom extends StatelessWidget {
           child: Row(
             children: <Widget>[
               InkWell(
-                onTap: () {},
-                child: Container(
-                  width: ScreenUtil().setWidth(110),
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.shopping_cart,
-                    size: 35,
-                    color: Colors.pink,
-                  ),
+                onTap: () {
+                  Provider.of<CurrentIndexNotifier>(context, listen: false)
+                      .changeIndex(2);
+                  Navigator.pop(context);
+                },
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(110),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.shopping_cart,
+                        size: 35,
+                        color: Colors.pink,
+                      ),
+                    ),
+                    Consumer<CartNotifier>(
+                      builder: (context, cartNotifier, child) {
+                        int allGoodsCount = cartNotifier.allGoodsCount;
+                        return Positioned(
+                            top: 0,
+                            right: ScreenUtil().setWidth(10),
+                            child: Container(
+//                                padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                            alignment: Alignment.center,
+                                width: ScreenUtil().setWidth(50),
+                                height: ScreenUtil().setWidth(50),
+                                decoration: BoxDecoration(
+                                  color: Colors.pink,
+                                  border: Border.all(width: 2,color: Colors.white),
+                                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(25))
+                                ),
+                                child: Text('$allGoodsCount',style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(24)
+                                ),)));
+                      },
+                    )
+                  ],
                 ),
               ),
               InkWell(
                 onTap: () async {
-                  await Provider.of<CartNotifier>(context,listen: false)
+                  await Provider.of<CartNotifier>(context, listen: false)
                       .save(goodsId, goodsName, count, price, images);
+                  await Provider.of<CartNotifier>(context, listen: false)
+                      .getCartInfo();
                 },
                 child: Container(
                   alignment: Alignment.center,

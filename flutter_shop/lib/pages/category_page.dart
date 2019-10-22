@@ -108,9 +108,9 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       setState(() {
         list = category.data;
       });
+      _getGoodsList();
       Provider.of<ChildCategoryNotifier>(context, listen: false)
           .getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
-      _getGoodsList();
     });
   }
 

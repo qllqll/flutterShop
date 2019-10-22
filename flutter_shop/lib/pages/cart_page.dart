@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import '../provider/cart.dart';
 import 'cart_page/cart_item.dart';
 import 'cart_page/cart_bottom.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     print('刷新界面');
@@ -16,27 +18,28 @@ class CartPage extends StatelessWidget {
             appBar: AppBar(
               title: Text('购物车'),
             ),
-            body:
-                Consumer<CartNotifier>(builder: (context, cartNotifier, child) {
-
+            body: Consumer<CartNotifier>(
+                builder: (context, cartNotifier, child) {
                   List<CartInfoModel> cartList = cartNotifier.cartList;
-              print(
-                  'allPrice-----${cartNotifier.allPrice} -------allGoodsCount------ ${cartNotifier.allGoodsCount}');
-              return Stack(
-                children: <Widget>[
-                  ListView.builder(
-                      itemBuilder: (context, index) {
-                        return CartItem(cartList[index]);
-                      },
-                      itemCount: cartList.length),
-                  Positioned(
-                    child: CartBottom(),
-                    bottom: 0,
-                    left: 0,
-                  )
-                ],
-              );
-            })));
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: ScreenUtil().setHeight(110)),
+                        child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CartItem(cartList[index]);
+                            },
+                            itemCount: cartList.length),
+                      ),
+                      Positioned(
+                        child: CartBottom(),
+                        bottom: 0,
+                        left: 0,
+                      )
+                    ],
+                  );
+                })));
   }
 
   void _getCartInfo(context) {
