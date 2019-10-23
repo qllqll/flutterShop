@@ -61,7 +61,7 @@ class ChildCategoryNotifier with ChangeNotifier {
   }
 
 //首页 点击类别更改
-  changeCategory(index,id) {
+  changeCategory(index, id) {
     _categoryId = id;
     _categoryIndex = index;
     _subId = '';
@@ -69,9 +69,8 @@ class ChildCategoryNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  changeState(){
+  changeState() {
     _isFromHome = false;
     notifyListeners();
   }
-
 }

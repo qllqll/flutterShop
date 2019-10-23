@@ -1,6 +1,15 @@
 PODS:
+  - amap_core_fluttify (0.0.1):
+    - Flutter
+    - foundation_fluttify
+  - amap_map_fluttify (0.0.1):
+    - amap_core_fluttify
+    - Flutter
+    - foundation_fluttify
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
+    - Flutter
+  - foundation_fluttify (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -8,27 +17,39 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - amap_core_fluttify (from `.symlinks/plugins/amap_core_fluttify/ios`)
+  - amap_map_fluttify (from `.symlinks/plugins/amap_map_fluttify/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - foundation_fluttify (from `.symlinks/plugins/foundation_fluttify/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 EXTERNAL SOURCES:
+  amap_core_fluttify:
+    :path: ".symlinks/plugins/amap_core_fluttify/ios"
+  amap_map_fluttify:
+    :path: ".symlinks/plugins/amap_map_fluttify/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  foundation_fluttify:
+    :path: ".symlinks/plugins/foundation_fluttify/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  amap_core_fluttify: c4df08152beae9bf77f6b7a694a3492056062a4d
+  amap_map_fluttify: 0bca52f1c0a2cca9f482bd80e7739200c247dad6
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  foundation_fluttify: 3038fcc96aabb59c77f595964954c118af535d57
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.6.1
