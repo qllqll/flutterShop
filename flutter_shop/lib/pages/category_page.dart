@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart' as prefix0;
+import 'package:provider/provider.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
 import '../model/category.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../provider/child_category.dart';
-import 'package:provider/provider.dart';
 import '../model/category_good_list.dart';
 import '../provider/category_goods_list.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../routers/application.dart';
+import 'package:fluro/fluro.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -344,7 +345,9 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
 
   Widget _ListWidget(categoryListData) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(context, "/map",transition: TransitionType.cupertino);
+      },
       child: Container(
         padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
         decoration: BoxDecoration(

@@ -5,6 +5,8 @@ import './router_handler.dart';
 class Routers {
   static String root = '/';
   static String detailsPage='/detail';
+  static String mapPage='/map';
+
   static void configureRouters(Router router){
     router.notFoundHandler = new Handler(
       handlerFunc: (BuildContext context, Map<String, dynamic> params){
@@ -14,5 +16,7 @@ class Routers {
     );
 
     router.define(detailsPage, handler: detailsHandler);
+    router.define(mapPage, handler: mapHandler);
+
   }
 }

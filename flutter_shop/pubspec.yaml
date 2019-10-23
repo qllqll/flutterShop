@@ -33,6 +33,8 @@ dependencies:
   fluro: ^1.5.1
   flutter_html: ^0.11.0
   shared_preferences: ^0.5.3+5
+  amap_map_fluttify: ^0.2.3+61475ac
+
 
 dev_dependencies:
   flutter_test:
