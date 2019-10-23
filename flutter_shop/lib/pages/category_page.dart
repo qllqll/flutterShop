@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart' as prefix0;
 import '../service/service_method.dart';
 import 'dart:convert';
 import '../model/category.dart';
@@ -56,34 +57,47 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     super.initState();
     _getCategory();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ScreenUtil().setWidth(180),
-      decoration: BoxDecoration(
-          border: Border(right: BorderSide(width: 1, color: Colors.black12))),
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return _leftInkWell(index);
-        },
-        itemCount: list.length,
-      ),
-    );
+    return Consumer<ChildCategoryNotifier>(builder: (context,val,child){
+      listIndex = val.categoryIndex;
+      return Container(
+        width: ScreenUtil().setWidth(180),
+        decoration: BoxDecoration(
+            border: Border(right: BorderSide(width: 1, color: Colors.black12))),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return _leftInkWell(index);
+          },
+          itemCount: list.length,
+        ),
+      );
+    }) ;
   }
 
   Widget _leftInkWell(index) {
     bool isClick = false;
     isClick = (index == listIndex) ? true : false;
+    if(Provider.of<ChildCategoryNotifier>(context).isFromHome) {
+      _getGoodsList();
+    }
+
+
     return InkWell(
       onTap: () {
         setState(() {
           listIndex = index;
         });
         var childList = list[index].bxMallSubDto;
+
         Provider.of<ChildCategoryNotifier>(context, listen: false)
             .getChildCategory(childList, list[index].mallCategoryId);
-        _getGoodsList();
+        Provider.of<ChildCategoryNotifier>(context, listen: false)
+            .changeCategory(index, list[index].mallCategoryId);
+        Provider.of<ChildCategoryNotifier>(context, listen: false)
+            .changeState();
+        _getGoodsList(categoryId: list[index].mallCategoryId);
       },
       child: Container(
         height: ScreenUtil().setHeight(100),
@@ -108,16 +122,17 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       setState(() {
         list = category.data;
       });
-      _getGoodsList();
-      Provider.of<ChildCategoryNotifier>(context, listen: false)
+      Provider.of<ChildCategoryNotifier>(context, listen: true)
           .getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
+      _getGoodsList();
+
     });
   }
 
-  void _getGoodsList() async {
+  void _getGoodsList({String categoryId}) async {
     var formData = {
-      'categoryId': Provider.of<ChildCategoryNotifier>(context).categoryId,
-      'categorySubId': '',
+      'categoryId': categoryId == null ? Provider.of<ChildCategoryNotifier>(context).categoryId : categoryId,
+      'categorySubId':  Provider.of<ChildCategoryNotifier>(context).subId,
       'page': '1',
     };
     await request('getMallGoods', formData: formData).then((val) {
@@ -137,7 +152,6 @@ class RightCategoryNav extends StatefulWidget {
 class _RightCategoryNavState extends State<RightCategoryNav> {
   @override
   Widget build(BuildContext context) {
-    print('刷新数据');
     return Container(
         height: ScreenUtil().setHeight(80),
         width: ScreenUtil().setWidth(570),

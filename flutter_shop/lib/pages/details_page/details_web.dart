@@ -12,7 +12,6 @@ class DetailsWeb extends StatelessWidget {
       if (val.goodsInfo != null) {
         String goodsDetails = val.goodsInfo.data.goodInfo.goodsDetail;
         List comments = val.goodsInfo.data.goodComments;
-//        print('-----------${comments[0].userName}');
         var isLeft = val.isLeft;
         if (isLeft) {
           return Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)), child: Html(data: goodsDetails));

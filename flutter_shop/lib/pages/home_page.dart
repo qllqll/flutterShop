@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_shop/model/category.dart';
+import 'package:provider/provider.dart';
 import '../service/service_method.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
@@ -8,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import '../routers/application.dart';
+import '../provider/child_category.dart';
+import '../provider/currentIndex.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -194,13 +198,13 @@ class SwiperDiy extends StatelessWidget {
         child: Swiper(
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
-              onTap: (){
+                onTap: () {
 //                Application.router.navigateTo(context, "/detail?id=${swiperDateList[index]['goodsId']}",transition: TransitionType.cupertino);
-              },
+                },
                 child: Image.network(
-              swiperDateList[index]['image'],
-              fit: BoxFit.fill,
-            ));
+                  swiperDateList[index]['image'],
+                  fit: BoxFit.fill,
+                ));
           },
           itemCount: swiperDateList.length,
           pagination: SwiperPagination(),
@@ -213,10 +217,22 @@ class SwiperDiy extends StatelessWidget {
 class TopNavigator extends StatelessWidget {
   final List navigatorList;
 
-  Widget _gridViewItemUI(BuildContext context, item) {
+  Widget _gridViewItemUI(BuildContext context, item, index) {
     return InkWell(
-        onTap: () {
+        onTap: () async {
           print('点击了导航');
+          await request('getCategory').then((val) {
+            var data = json.decode(val.toString());
+            CategoryModel categoryModel = CategoryModel.fromJson(data);
+            List list = categoryModel.data;
+            Provider.of<ChildCategoryNotifier>(context, listen: false)
+                .changeCategory(index,item['mallCategoryId']);
+            Provider.of<ChildCategoryNotifier>(context, listen: false)
+                .getChildCategory(
+                    list[index].bxMallSubDto, item['mallCategoryId']);
+            Provider.of<CurrentIndexNotifier>(context, listen: false)
+                .changeIndex(1);
+          });
         },
         child: Column(
           children: <Widget>[
@@ -236,6 +252,8 @@ class TopNavigator extends StatelessWidget {
     if (this.navigatorList.length > 10) {
       this.navigatorList.removeRange(10, this.navigatorList.length);
     }
+    var tempIndex = -1;
+
     return Container(
       height: ScreenUtil().setHeight(320),
       padding: EdgeInsets.all(ScreenUtil().setWidth(3)),
@@ -244,7 +262,8 @@ class TopNavigator extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
           children: navigatorList.map((item) {
-            return _gridViewItemUI(context, item);
+            tempIndex++;
+            return _gridViewItemUI(context, item, tempIndex);
           }).toList()),
     );
   }
@@ -316,11 +335,12 @@ class Recommend extends StatelessWidget {
   }
 
 //  商品的每一项
-  Widget _goodItem(context,index) {
+  Widget _goodItem(context, index) {
     return InkWell(
       onTap: () {
-        Application.router.navigateTo(context, "/detail?id=${recommendList[index]['goodsId']}",transition: TransitionType.cupertino);
-
+        Application.router.navigateTo(
+            context, "/detail?id=${recommendList[index]['goodsId']}",
+            transition: TransitionType.cupertino);
       },
       child: Container(
         height: ScreenUtil().setHeight(330),
@@ -357,7 +377,7 @@ class Recommend extends StatelessWidget {
         color: Colors.white,
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return _goodItem(context,index);
+            return _goodItem(context, index);
           },
           scrollDirection: Axis.horizontal,
           itemCount: recommendList.length,
@@ -396,7 +416,9 @@ class FloorContent extends StatelessWidget {
   final List floorGoodList;
 
   FloorContent({this.floorGoodList});
+
   BuildContext _context;
+
   @override
   Widget build(BuildContext context) {
     _context = context;
@@ -433,8 +455,9 @@ class FloorContent extends StatelessWidget {
       width: ScreenUtil().setWidth(375),
       child: InkWell(
         onTap: () {
-          Application.router.navigateTo(_context, "/detail?id=${goods['goodsId']}",transition: TransitionType.cupertino);
-
+          Application.router.navigateTo(
+              _context, "/detail?id=${goods['goodsId']}",
+              transition: TransitionType.cupertino);
         },
         child: Image.network(goods['image']),
       ),
@@ -458,9 +481,7 @@ class HotGoodsState extends State<HotGoods> {
   @override
   void initState() {
     super.initState();
-    request('homePageContent', formData: 1).then((val) {
-      print(val);
-    });
+    request('homePageContent', formData: 1).then((val) {});
   }
 
   @override

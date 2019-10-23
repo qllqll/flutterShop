@@ -80,6 +80,7 @@ class CartBottom extends StatelessWidget {
   }
 
   Widget _goButton(count) {
+    String countString = count > 99 ? '99+' : count.toString();
     return Container(
       alignment: Alignment.center,
       width: ScreenUtil().setWidth(200),
@@ -92,10 +93,11 @@ class CartBottom extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.all(5),
+//          padding: EdgeInsets.all(5),
           alignment: Alignment.center,
           child: Text(
-            '结算（$count）',
+
+            '结算（$countString）',
             style: TextStyle(color: Colors.white),
           ),
           decoration: BoxDecoration(

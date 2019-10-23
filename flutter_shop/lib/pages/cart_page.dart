@@ -11,7 +11,6 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('刷新界面');
     _getCartInfo(context);
     return Container(
         child: Scaffold(

@@ -9,7 +9,6 @@ class DetailsTopArea extends StatelessWidget {
     return Consumer<DetailInfoProvider>(builder: (context, detailInfo, child) {
       if (detailInfo.goodsInfo != null) {
         var goodsInfo = detailInfo.goodsInfo.data.goodInfo;
-        print(goodsInfo);
         return Container(
           color: Colors.white,
           child: Column(

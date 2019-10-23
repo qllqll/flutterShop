@@ -41,7 +41,6 @@ class CartNotifier with ChangeNotifier {
 
     cartString = json.encode(tempList).toString();
     prefs.setString('CART_INFO', cartString);
-    print(cartString);
     notifyListeners();
   }
 
@@ -49,7 +48,6 @@ class CartNotifier with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     cartList = [];
-    print('-------------清空完成');
     notifyListeners();
   }
 
@@ -69,7 +67,6 @@ class CartNotifier with ChangeNotifier {
         } else {
           isAllCheck = false;
         }
-        print('----$allPrice-----$allGoodsCount');
         cartList.add(CartInfoModel.fromJson(item));
       });
     }
