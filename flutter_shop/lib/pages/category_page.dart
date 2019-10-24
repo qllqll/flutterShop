@@ -27,7 +27,6 @@ class _CategoryPageState extends State<CategoryPage> {
           title: Text('商品分类'),
         ),
         body: FutureBuilder(
-          builder: (context, snapshot) {
             if(snapshot.hasData) {
               return Container(
                 child: Row(
